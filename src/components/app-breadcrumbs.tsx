@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router'
+import { useMatches } from 'react-router'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,19 +9,29 @@ import {
 } from './ui/breadcrumb'
 
 export default function AppBreadcrumbs() {
-  const { pathname } = useLocation()
-  const pathnames = pathname.split('/')
+  const matches = useMatches()
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Home</BreadcrumbPage>
-        </BreadcrumbItem>
+        {matches.map((match, idx) => {
+          if (match?.handle?.breadcrumb) {
+            return idx != matches.length - 1  ? (
+              <>
+                <BreadcrumbItem key={idx}>
+                  <BreadcrumbLink href={match.pathname}>
+                    {match.handle.breadcrumb}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator key={idx*length} />
+              </>
+            ) : (
+              <BreadcrumbItem key={idx}>
+                <BreadcrumbPage>{match.handle.breadcrumb}</BreadcrumbPage>
+              </BreadcrumbItem>
+            )
+          }
+        })}
       </BreadcrumbList>
     </Breadcrumb>
   )

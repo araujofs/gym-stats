@@ -13,7 +13,14 @@ import {
   SidebarMenuSubButton,
   useSidebar
 } from '@/components/ui/sidebar'
-import { BarChart2, ChevronRight, Dumbbell } from 'lucide-react'
+import {
+  BarChart,
+  BarChart2,
+  ChevronRight,
+  Dumbbell,
+  NotebookPen,
+  NotebookText
+} from 'lucide-react'
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,33 +28,22 @@ import {
 } from '@/components/ui/collapsible'
 import '@/styles/sidebar.css'
 import { useState } from 'react'
+import { Tooltip, TooltipContent } from './ui/tooltip'
+import { TooltipTrigger } from '@radix-ui/react-tooltip'
 
 export function AppSidebar() {
   const { open, setOpen } = useSidebar()
-  const [hovered, setHovered] = useState(false)
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>()
 
   return (
     <Sidebar
-      variant='inset'
+      variant="inset"
       collapsible="icon"
-      onMouseEnter={() => {
-        setTimeoutId(
-          setTimeout(() => {
-            if (!hovered && !open) {
-              setOpen(true)
-              setHovered(true)
-            }
-          }, 150)
-        )
-      }}
-      onMouseLeave={() => {
-        clearTimeout(timeoutId)
-        if (hovered) {
-          setOpen(false)
-          setHovered(false)
+      onClick={() => {
+        if (!open) {
+          setOpen(true)
         }
       }}
+      className={`${!open && 'hover:cursor-e-resize'}`}
     >
       <SidebarHeader>
         <SidebarMenu>
@@ -88,11 +84,57 @@ export function AppSidebar() {
                   </CollapsibleContent>
                 </SidebarMenuItem>
               </Collapsible>
+
+              <Collapsible defaultOpen className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton>
+                      <BarChart />
+                      <span>Peso</span>
+                      <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubButton>
+                        <span>Exercícios</span>
+                      </SidebarMenuSubButton>
+                      <SidebarMenuSubButton>
+                        <span>Corporal</span>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Registros</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton>
+                      <NotebookText />
+                      <span>Treinos</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Registrar e consultar treinos
+                </TooltipContent>
+              </Tooltip>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <NotebookPen />
+                  <span>Peso</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />

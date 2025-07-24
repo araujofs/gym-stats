@@ -9,6 +9,9 @@ import {
 
 import type { Route } from './+types/root'
 import '@/styles/global.css'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/ui/theme-provider'
+import AuthProvider, { useAuth } from '@/providers/auth-context'
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'GymStats' }]
@@ -24,6 +27,10 @@ export const links: Route.LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
+  },
+  {
+    rel: 'icon',
+    href: 'favicon-v1.ico'
   }
 ]
 
@@ -36,8 +43,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className='dark'>
-        {children}
+      <body className="flex flex-col min-h-screen">
+        {<main className="flex-1 flex">{children}</main>}
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -46,7 +54,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
+      <Outlet />
+    </ThemeProvider>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

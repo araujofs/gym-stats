@@ -1,7 +1,11 @@
+export const handle = {
+  breadcrumb: "Início"
+}
+
 export default function Home() {
   return (
     <div>
-      <h1>For the hate</h1>
+      <p>aalalaalalaalalalal agora tem conteudo e continua branco imrmao uai</p>
     </div>
   )
 }
