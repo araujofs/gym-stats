@@ -4,25 +4,32 @@ import type { User } from '@supabase/supabase-js'
 
 type AuthContextType = {
   user: User | null,
-  loading: boolean
+  loading: boolean,
+  logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  loading: true
+  loading: true,
+  logout: () => undefined
 })
 
 export default function AuthProvider({children}: {children: ReactNode}) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
+  function logout() {
+    db.auth.signOut().then(() => {
+      setUser(null)
+    })
+  }
+
   useEffect(() => {
     db.auth.getSession().then((data) => {
       setUser(data.data.session?.user ?? null)
       setLoading(false)
-    })
-
-    setLoading(false)
+      console.log(user)
+    }).catch(error => console.error(error))
 
     const { data: listener } = db.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
@@ -32,7 +39,7 @@ export default function AuthProvider({children}: {children: ReactNode}) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   )

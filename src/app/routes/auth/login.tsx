@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { supabase as db } from '@/lib/db-client'
 import { toast } from 'sonner'
-import { Link, redirect } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import {
   Form,
   FormControl,
@@ -22,6 +22,7 @@ const formSchema = z.object({
 })
 
 export default function Login() {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +42,7 @@ export default function Login() {
       return
     }
 
-    redirect('/')
+    navigate('/')
   }
 
   return (
