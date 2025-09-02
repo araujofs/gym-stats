@@ -1,4 +1,4 @@
-import { useMatches } from 'react-router'
+import { useMatches, type UIMatch } from 'react-router'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,30 +7,44 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from './ui/breadcrumb'
+import { Fragment } from 'react/jsx-runtime'
+
+interface Handle {
+  breadcrumb: string
+}
 
 export default function AppBreadcrumbs() {
-  const matches = useMatches()
+  const matches = useMatches() as UIMatch<unknown, Handle>[]
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {matches.map((match, idx) => {
-          if (match?.handle?.breadcrumb) {
-            return idx != matches.length - 1  ? (
-              <>
-                <BreadcrumbItem key={idx}>
-                  <BreadcrumbLink href={match.pathname}>
-                    {match.handle.breadcrumb}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator key={idx*length} />
-              </>
-            ) : (
+          const breadcrumb = match?.handle?.breadcrumb
+
+          console.log(matches)
+
+          if (!breadcrumb) return
+
+          if (idx === matches.length - 1)
+            return (
               <BreadcrumbItem key={idx}>
-                <BreadcrumbPage>{match.handle.breadcrumb}</BreadcrumbPage>
+                <BreadcrumbPage>{breadcrumb}</BreadcrumbPage>
               </BreadcrumbItem>
             )
-          }
+
+          // if (breadcrumb === 'Home') return
+
+          return (
+            <Fragment key={idx}>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={match.pathname}>
+                  {breadcrumb}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </Fragment>
+          )
         })}
       </BreadcrumbList>
     </Breadcrumb>

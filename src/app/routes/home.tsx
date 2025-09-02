@@ -1,5 +1,5 @@
 export const handle = {
-  breadcrumb: "Início"
+  breadcrumb: "Home"
 }
 
 export default function Home() {
