@@ -78,7 +78,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Create</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Tooltip delayDuration={200}>
+              <Tooltip delayDuration={500}>
                 <TooltipTrigger asChild>
                   <Link to='workout/create'>
                     <SidebarMenuItem>
@@ -99,7 +99,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Register</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Tooltip delayDuration={200}>
+              <Tooltip delayDuration={500}>
                 <TooltipTrigger asChild>
                   <SidebarMenuItem>
                     <SidebarMenuButton>

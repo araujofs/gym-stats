@@ -15,7 +15,7 @@ export default [
         id: 'Home'
       }),
       route('workout', 'routes/workout/workout.tsx', { id: 'Workout' }, [
-        route('create', 'routes/workout/workout-create.tsx', { id: 'Workout-Create' })
+        route('create', 'routes/workout/create/workout-create.tsx', { id: 'Workout-Create' })
       ])
     ])
   ])

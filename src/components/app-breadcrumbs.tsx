@@ -22,8 +22,6 @@ export default function AppBreadcrumbs() {
         {matches.map((match, idx) => {
           const breadcrumb = match?.handle?.breadcrumb
 
-          console.log(matches)
-
           if (!breadcrumb) return
 
           if (idx === matches.length - 1)

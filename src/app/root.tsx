@@ -9,9 +9,10 @@ import {
 
 import type { Route } from './+types/root'
 import '@/styles/global.css'
+import '@/styles/loader.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/ui/theme-provider'
-import AuthProvider, { useAuth } from '@/providers/auth-context'
+import AuthProvider from '@/providers/auth-context'
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'GymStats' }]
